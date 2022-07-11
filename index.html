@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Black Friday</title>
+
+    <style>
+
+        body{
+            background-color: black;
+            color: white;
+            font-family: Garamond;
+        }
+        #bilde{
+            position: absolute;
+            display: block;
+            width: 40%;
+            left: 0px;
+            top: 40px;
+        }
+        #medlem{ 
+            position: absolute;
+            left: 49px;
+            top: 270px;
+            font-size: 19px;
+        }
+        #inpNavn{ 
+            position: absolute;
+            left: 49px;
+            top: 400px;
+            font-size: 19px;
+        } 
+        #inpBukser{
+            position: absolute;
+            left: 49px;
+            top: 470px;
+            font-size: 19px;
+            width: 250px;
+            height: 20px;
+        }        
+        #inpStorrelse{ 
+            position: absolute;
+            top: 270px;
+            left: 400px;
+            font-size: 19px;
+        }
+        #velgStorrelse{
+            position: absolute;
+            top: 45px;
+            left: 0px;
+        }
+        #inpValg{ 
+            position: absolute;
+            left: 400px;
+            top: 350px;
+            font-size: 19px;
+        }
+        #btn1{ 
+            position:absolute;
+            top: 570px;
+            left: 400px;
+            width: 100px;
+            height: 20px;
+        }
+        #results{ 
+            position:absolute;
+            top: 100px;
+            left: 800px;
+            width: 400px;
+            height: 350px;
+            font-size: 20px;
+            padding: 5px;
+            border: 1px solid white;
+            background-color: #e85635;
+        }    
+    </style>
+</head>
+
+<body>
+
+    <img src ="black.jpg" id="bilde" data-lyd="black.mp4">
+    <audio id="lyd"></audio>
+
+
+    <form id = "frmNavn">
+
+        <span id = "medlem">
+            <p>Medlem av Modum Storsenter?</p>
+            <label><input type = "radio" name = "medlem" id ="Ja">Ja</label><br>
+            <label><input type = "radio" name = "medlem" id ="Nei">Nei</label>
+        </span>        
+
+        <span id = "inpNavn">
+            <label for = "name">Navn: </label>
+            <input type = "text" id = "navnBoks" placeholder = "Navn" required>
+        </span>
+
+        <span id = "inpBukser">
+            <p>Hvor mange bukser vil du ha?</p>
+            <label><input type = "radio" name = "antallBukser" id ="to" value = 2>2</label><br>
+            <label><input type = "radio" name = "antallBukser" id ="tre" value = 3>3</label><br>
+            <label><input type = "radio" name = "antallBukser" id ="fire" value = 4>4</label><br>
+            <label><input type = "radio" name = "antallBukser" id ="fem" value = 5>5</label><br>
+        </span>  
+
+        <span id = "inpStorrelse">
+            <p>Hvilken størrelse ønsker du?</p>
+            <select id = "velgStorrelse">
+                <option value = "">Størrelse</option>
+                <option value = "xs">XS</option>
+                <option value = "s">S</option>
+                <option value = "m">M</option>
+                <option value = "l">L</option>
+                <option value = "xl">XL</option>
+            </select>
+        </span>
+
+        <span id = "inpValg">
+            <p>Hva ønsker du å kjøpe?</p>
+    
+            <label><input type="checkbox" id="gucci" name="Valg" value="Gucci-klær"> Gucci<br></label>
+            <label><input type="checkbox" id="gensere" name="Valg" value="Gensere"> Gensere<br></label>
+            <label><input type="checkbox" id="sko" name="Valg" value="Sko"> Sko<br></label>
+            <label><input type="checkbox" id="jakke" name="Valg" value="Jakke"> Jakke<br></label>  
+            <label><input type="checkbox" id="t-skjorte" name="Valg" value="T-skjorte"> T-skjorte<br></label>          
+            <label><input type="checkbox" id="sportsklær" name="Valg" value="Sportsklær"> Sportsklær<br></label>          
+    
+        </span>
+
+        <button id = "btn1" type = "submit">Send inn data</button>
+
+    </form>   
+
+    <span id = "results"></span>
+    <span id = "chosenClothes"></span>
+
+</body>
+<script>
+    var frmNavn = document.getElementById("frmNavn");
+    var resultat = document.getElementById("results");
+    var klesListe = document.getElementById("chosenClothes");
+    var rbJa = document.getElementById("Ja");
+    var rbNei = document.getElementById("Nei");
+
+    var bukser2 =  [document.getElementById("to"),  
+                     document.getElementById("tre"),  
+                     document.getElementById("fire"),  
+                     document.getElementById("fem")];
+
+    var navn = document.getElementById("navnBoks");
+
+    var velgStorrelse = document.getElementById("velgStorrelse");
+
+    var ønsker =   [document.getElementById("gucci"),
+                    document.getElementById("gensere"),
+                    document.getElementById("sko"),
+                    document.getElementById("jakke"),
+                    document.getElementById("t-skjorte"),
+                    document.getElementById("sportsklær")];
+
+        function hørLyd(evt){
+                var image = evt.target;
+                var lydfil = image.getAttribute("data-lyd");
+                lyd.src = lydfil;
+                lyd.play();
+            }
+            bilde.onclick = hørLyd;                 
+
+        frmNavn.onsubmit = function(evt){
+            evt.preventDefault();
+        
+            var buksePris = 1000;
+            var rabatt = 15;
+            var vekstFaktor = 1.0;
+            resultat.innerHTML = "Data over " + navn.value + ": <br><br>";
+
+            if (rbJa.checked){
+                vekstFaktor = 1.0 - (rabatt/100);
+                resultat.innerHTML+= "Du er medlem av Modum Storsenter, og får dermed 15% rabatt.<br>";
+            }
+            else resultat.innerHTML+= "Du er ikke medlem av Modum Storsenter, og får dermed ingen rabatt.<br>";
+
+            for (var i=0; i<bukser2.length; i++){
+                if (bukser2[i].checked){
+                    resultat.innerHTML+= "Du ønsker å kjøpe " + bukser2[i].value + " bukser til pris kr " + bukser2[i].value*buksePris*vekstFaktor + ".<br>";
+                    break;
+                }
+            }
+      
+            var storrelse = velgStorrelse[velgStorrelse.selectedIndex];
+            resultat.innerHTML+= "Du bruker størrelse " + storrelse.innerHTML + ".<br><br>";
+
+            resultat.innerHTML+="Du ønsker å kjøpe innen disse kategoriene:<br><br>";
+        
+            for (var j=0; j<ønsker.length; j++){
+                if (ønsker[j].checked) resultat.innerHTML+=" - "+ønsker[j].value+"<br>"; 
+            }
+        }
+</script>
+</html>
